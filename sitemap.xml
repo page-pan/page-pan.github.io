@@ -2,14 +2,14 @@
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <sitemap>
-    <loc>http://localhost:1313/blog/zh-cn/sitemap.xml</loc>
+    <loc>https://page-pan.github.io/zh-cn/sitemap.xml</loc>
     
       <lastmod>2026-02-09T11:33:11+08:00</lastmod>
     
   </sitemap>
   
   <sitemap>
-    <loc>http://localhost:1313/blog/en/sitemap.xml</loc>
+    <loc>https://page-pan.github.io/en/sitemap.xml</loc>
     
   </sitemap>
   

@@ -2,40 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/blog/en/categories/</loc>
+    <loc>https://page-pan.github.io/en/categories/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:1313/blog/categories/"
+                href="https://page-pan.github.io/categories/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/blog/en/categories/"
+                href="https://page-pan.github.io/en/categories/"
                 />
   </url><url>
-    <loc>http://localhost:1313/blog/en/</loc>
+    <loc>https://page-pan.github.io/en/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:1313/blog/"
+                href="https://page-pan.github.io/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/blog/en/"
+                href="https://page-pan.github.io/en/"
                 />
   </url><url>
-    <loc>http://localhost:1313/blog/en/tags/</loc>
+    <loc>https://page-pan.github.io/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh-cn"
-                href="http://localhost:1313/blog/tags/"
+                href="https://page-pan.github.io/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="http://localhost:1313/blog/en/tags/"
+                href="https://page-pan.github.io/en/tags/"
                 />
   </url>
 </urlset>

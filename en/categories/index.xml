@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
     <channel>
         <title>Categories on Page Site</title>
-        <link>http://localhost:1313/blog/en/categories/</link>
+        <link>https://page-pan.github.io/en/categories/</link>
         <description>Recent content in Categories on Page Site</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>en</language>
-        <copyright>Page Pan</copyright><atom:link href="http://localhost:1313/blog/en/categories/index.xml" rel="self" type="application/rss+xml" />
+        <copyright>Page Pan</copyright><atom:link href="https://page-pan.github.io/en/categories/index.xml" rel="self" type="application/rss+xml" />
     </channel>
 </rss>
