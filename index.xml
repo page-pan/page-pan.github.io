@@ -7,7 +7,499 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <copyright>Page Pan</copyright>
-        <lastBuildDate>Sat, 14 Mar 2026 10:22:22 +0800</lastBuildDate><atom:link href="https://page-pan.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Sat, 14 Mar 2026 21:29:53 +0800</lastBuildDate><atom:link href="https://page-pan.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>AI 幻觉（Hallucination）规避方法</title>
+        <link>https://page-pan.github.io/p/ai-%E5%B9%BB%E8%A7%89hallucination%E8%A7%84%E9%81%BF%E6%96%B9%E6%B3%95/</link>
+        <pubDate>Sat, 14 Mar 2026 21:29:53 +0800</pubDate>
+        
+        <guid>https://page-pan.github.io/p/ai-%E5%B9%BB%E8%A7%89hallucination%E8%A7%84%E9%81%BF%E6%96%B9%E6%B3%95/</guid>
+        <description>&lt;p&gt;AI 幻觉：大模型&lt;strong&gt;编造事实、引用不存在文献、逻辑自洽但错误、答非所问却很自信&lt;/strong&gt;。&lt;/p&gt;
+&lt;h1 id=&#34;一最立竿见影prompt-工程&#34;&gt;一、最立竿见影：Prompt 工程
+&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;强制 “不知道就说不知道”&lt;/p&gt;
+&lt;p&gt;请严格遵守：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果你不确定、没有把握、信息不足，直接说“我不确定”，不要编造。&lt;/li&gt;
+&lt;li&gt;不要生成不存在的人名、数据、文献、链接、政策文件。&lt;/li&gt;
+&lt;li&gt;只输出你&lt;strong&gt;确定为真&lt;/strong&gt;的内容。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;要求标注来源&lt;/p&gt;
+&lt;p&gt;回答时必须：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;引用可验证来源&lt;/li&gt;
+&lt;li&gt;不确定来源时明确标注“无可靠来源”&lt;/li&gt;
+&lt;li&gt;禁止虚构来源、虚构引用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;分步思考 + 自我校验（COT + Self-Correction）&lt;/p&gt;
+&lt;p&gt;请按步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先提取问题关键点&lt;/li&gt;
+&lt;li&gt;检索/回忆可靠知识&lt;/li&gt;
+&lt;li&gt;组织答案&lt;/li&gt;
+&lt;li&gt;自我检查：是否有编造？是否有矛盾？是否有不确定内容？&lt;/li&gt;
+&lt;li&gt;只输出最终正确答案&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;限制输出范围&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;只回答某领域&lt;/li&gt;
+&lt;li&gt;只基于提供的文档回答&lt;/li&gt;
+&lt;li&gt;禁止扩展、禁止联想&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;二最强治本方案rag检索增强生成&#34;&gt;二、最强治本方案：RAG（检索增强生成）
+&lt;/h1&gt;&lt;p&gt;&lt;strong&gt;RAG 是目前工业界抑制幻觉最有效手段。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;核心逻辑&lt;/p&gt;
+&lt;p&gt;不依赖模型 “记忆”，而是：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;检索真实文档 → 让模型只基于文档回答 → 禁止模型自由发挥&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;落地要点&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;高质量知识库&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;权威：官方文档、论文、标准、手册、财报、法规&lt;/li&gt;
+&lt;li&gt;去噪：清洗错误、重复、过时信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;精准检索&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;向量库 + 关键词混合检索&lt;/li&gt;
+&lt;li&gt;召回 Top3~5 最相关片段&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;强约束 Prompt&lt;/p&gt;
+&lt;p&gt;请&lt;strong&gt;只根据下面提供的资料&lt;/strong&gt;回答，
+资料里没有的内容，不要回答，不要编造。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;引用溯源&lt;/p&gt;
+&lt;p&gt;回答末尾自动附上：参考资料：xxx 第x段&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;三模型层面从源头减少幻觉&#34;&gt;三、模型层面：从源头减少幻觉
+&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;选择更稳定的模型&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;闭源：GPT-4、Claude 3、Gemini Advanced 幻觉显著更低&lt;/li&gt;
+&lt;li&gt;开源：Llama 3、Qwen、GLM 系列新版本 &amp;gt; 小模型 / 旧模型&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;微调策略（Fine-tuning）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SFT（有监督微调）&lt;/strong&gt;：用&lt;strong&gt;高质量、事实准确&lt;/strong&gt;的问答对&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;偏好对齐（RLHF/DPO）&lt;/strong&gt;：强化 “诚实”、“拒绝编造”&lt;/li&gt;
+&lt;li&gt;禁止用低质量爬虫数据、混杂错误数据微调&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;温度（Temperature）调低&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;生成更保守、更确定&lt;/li&gt;
+&lt;li&gt;建议：&lt;strong&gt;0~0.3&lt;/strong&gt;（ factual 任务）&lt;/li&gt;
+&lt;li&gt;创意任务可适当调高&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;四架构层面外挂工具杜绝瞎编&#34;&gt;四、架构层面：外挂工具，杜绝瞎编
+&lt;/h1&gt;&lt;p&gt;让模型&lt;strong&gt;不能编，只能查&lt;/strong&gt;。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;联网搜索插件
+&lt;ul&gt;
+&lt;li&gt;实时拉取最新、真实信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;数据库 / API 查询
+&lt;ul&gt;
+&lt;li&gt;数字、订单、库存、价格：必须查库，不许编&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;计算器 / 代码解释器
+&lt;ul&gt;
+&lt;li&gt;数学、统计、逻辑计算：交给工具，不依赖模型推理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;五后校验自动检测--人工审核必做&#34;&gt;五、后校验：自动检测 + 人工审核（必做）
+&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;自动事实校验（Fact-Checking）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;用另一个更强模型做 “审稿人”&lt;/li&gt;
+&lt;li&gt;检查：
+&lt;ul&gt;
+&lt;li&gt;是否存在不存在实体&lt;/li&gt;
+&lt;li&gt;数据是否矛盾&lt;/li&gt;
+&lt;li&gt;逻辑是否自洽&lt;/li&gt;
+&lt;li&gt;能否被原文支持&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;关键词拦截&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;拦截幻觉高频句式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;“据相关资料显示…”&lt;/li&gt;
+&lt;li&gt;“专家普遍认为…”&lt;/li&gt;
+&lt;li&gt;“有研究表明…”（无具体来源）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;人工审核流程&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;高风险场景（医疗、法律、金融、新闻）必须人工终审&lt;/li&gt;
+&lt;li&gt;建立错误样本库，持续迭代&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;六按场景给你直接可用方案最实用&#34;&gt;六、按场景给你直接可用方案（最实用）
+&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;客服 / 问答（最容易幻觉）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;必须用 RAG&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;禁止模型自由回答&lt;/li&gt;
+&lt;li&gt;超出知识库统一回复：该问题我无法准确回答，将转接人工客服。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;写作 / 总结&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;要求每段事实&lt;strong&gt;必须来自原文&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;禁止添加原文没有的信息、评价、数据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;代码 / 技术&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;代码必须可运行，给出验证方式&lt;/li&gt;
+&lt;li&gt;技术参数必须来自官方文档（RAG）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;医疗 / 法律 / 金融（强风险）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;模型只做&lt;strong&gt;信息整理&lt;/strong&gt;，不做结论&lt;/li&gt;
+&lt;li&gt;必须加免责声明&lt;/li&gt;
+&lt;li&gt;关键结论必须人工复核&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;七反幻觉终极-prompt&#34;&gt;七、反幻觉终极 Prompt
+&lt;/h1&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
+&lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;2
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;3
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;4
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;5
+&lt;/span&gt;&lt;span class=&#34;lnt&#34;&gt;6
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;
+&lt;td class=&#34;lntd&#34;&gt;
+&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-fallback&#34; data-lang=&#34;fallback&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;你现在执行严格事实约束：
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;1. 不确定、无把握、无来源的内容，直接说“我无法确定”，绝不编造。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;2. 不生成不存在的人名、地名、数据、论文、法规、链接、案例。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;3. 所有事实性内容必须可验证、有权威依据。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;4. 若问题需要最新信息或真实数据，你必须声明需要检索/查询，不能凭记忆回答。
+&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;5. 回答完成后，自我检查一遍是否存在幻觉，如有则删除错误内容。
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;p&gt;总结（一句话记住）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;低风险场景：Prompt + 低温&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;中风险场景：RAG + 来源引用&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;高风险场景：RAG + 工具调用 + 自动校验 + 人工审核&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你告诉我你是&lt;strong&gt;做项目 / 写论文 / 做产品 / 做客服&lt;/strong&gt;，我可以直接给你&lt;strong&gt;对应场景的最简可落地方案&lt;/strong&gt;和一套专属反幻觉提示词。&lt;/p&gt;
+&lt;h1 id=&#34;ai-助手交互规范tob&#34;&gt;AI 助手交互规范(ToB)
+&lt;/h1&gt;&lt;h2 id=&#34;适用范围&#34;&gt;适用范围
+&lt;/h2&gt;&lt;p&gt;本文档适用于产品内所有 AI 对话、AI 问答、AI 生成类功能的交互逻辑、输出约束、异常处理、用户体验规范。&lt;/p&gt;
+&lt;h2 id=&#34;设计原则&#34;&gt;设计原则
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;可信优先&lt;/strong&gt;：事实准确 &amp;gt; 回答完整 &amp;gt; 体验流畅。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;边界清晰&lt;/strong&gt;：不超范围、不瞎编、不承诺、不联想。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可解释&lt;/strong&gt;：所有关键信息必须可溯源、可校验。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可降级&lt;/strong&gt;：AI 不可靠时，必须自动切换为人工 / 标准话术。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;安全合规&lt;/strong&gt;：禁止输出违法、违规、误导、承诺性内容。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;输入规范&#34;&gt;输入规范
+&lt;/h2&gt;&lt;h3 id=&#34;允许输入&#34;&gt;允许输入
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;产品功能咨询、使用问题、操作指引&lt;/li&gt;
+&lt;li&gt;规则说明、流程解释、状态查询&lt;/li&gt;
+&lt;li&gt;合理的意见反馈、求助&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;禁止输入处理触发拦截&#34;&gt;禁止输入处理（触发拦截）
+&lt;/h3&gt;&lt;p&gt;满足以下任一条件，&lt;strong&gt;直接拦截，不进入 AI 生成&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;涉政、色情、暴力、违法违规&lt;/li&gt;
+&lt;li&gt;医疗诊断、法律意见、投资理财建议&lt;/li&gt;
+&lt;li&gt;人身攻击、辱骂、恶意诱导&lt;/li&gt;
+&lt;li&gt;非本产品相关的无关问题&lt;/li&gt;
+&lt;li&gt;诱导泄露隐私、后台数据、内部逻辑&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;拦截统一回复：&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;抱歉，该问题我无法回答，请更换问题或咨询人工客服。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;输出强制规范核心反幻觉&#34;&gt;输出强制规范（核心反幻觉）
+&lt;/h2&gt;&lt;h3 id=&#34;绝对禁止输出&#34;&gt;绝对禁止输出
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;编造不存在的&lt;strong&gt;功能、价格、活动、规则、时间节点&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;编造&lt;strong&gt;人名、数据、案例、文献、链接、政策依据&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;做出&lt;strong&gt;承诺、保证、预判、结果担保&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;超出知识库范围的&lt;strong&gt;联想、推理、扩展&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;内部逻辑、接口、模型、数据结构等涉密信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;必须遵守&#34;&gt;必须遵守
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;只依据官方知识库回答&lt;/strong&gt;，无知识库内容则拒答。&lt;/li&gt;
+&lt;li&gt;不确定 → 明确说 &lt;strong&gt;“我无法确定”&lt;/strong&gt;，不模糊、不猜测。&lt;/li&gt;
+&lt;li&gt;同类问题&lt;strong&gt;输出保持一致性&lt;/strong&gt;，不可前后矛盾。&lt;/li&gt;
+&lt;li&gt;回答&lt;strong&gt;简洁、客观、中性&lt;/strong&gt;，不情绪化、不夸张。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;知识库与-rag-流程强制&#34;&gt;知识库与 RAG 流程（强制）
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;用户提问 → 先检索知识库。&lt;/li&gt;
+&lt;li&gt;匹配度≥阈值 → 基于片段生成回答。&lt;/li&gt;
+&lt;li&gt;匹配度＜阈值 → 直接拒答，&lt;strong&gt;不自由生成&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;回答末尾必须显示：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;信息来源于官方知识库&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;模型参数约束给技术&#34;&gt;模型参数约束（给技术）
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;生成模式：&lt;strong&gt;事实优先&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;温度：&lt;strong&gt;≤ 0.2&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;最大长度：根据场景限制，&lt;strong&gt;不允许超长发挥&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;禁止开启：联想模式、扩展模式、创意模式&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;交互流程规范&#34;&gt;交互流程规范
+&lt;/h2&gt;&lt;h3 id=&#34;正常流程&#34;&gt;正常流程
+&lt;/h3&gt;&lt;p&gt;用户提问 → 意图识别 → 规则拦截 → 知识库检索 → AI 生成 → 校验 → 输出&lt;/p&gt;
+&lt;h3 id=&#34;降级流程&#34;&gt;降级流程
+&lt;/h3&gt;&lt;p&gt;任一环节不通过，直接降级：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;无匹配知识 → 拒答&lt;/li&gt;
+&lt;li&gt;校验不通过 → 拒答&lt;/li&gt;
+&lt;li&gt;服务异常 → 提示稍后再试&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;降级统一回复：&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;抱歉，我暂时无法准确回答你的问题，你可以尝试咨询人工客服。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;视觉与体验规范&#34;&gt;视觉与体验规范
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;AI 回答区域必须明显区分用户输入，标明 &lt;strong&gt;“智能助手”&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;关键步骤、操作指引支持&lt;strong&gt;高亮 / 可复制&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;长回答分段展示，不堆砌大段文字。&lt;/li&gt;
+&lt;li&gt;禁止使用：“可能”“应该”“大概”“据了解” 等模糊表述。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;异常处理&#34;&gt;异常处理
+&lt;/h2&gt;&lt;h3 id=&#34;ai-服务异常&#34;&gt;AI 服务异常
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;智能助手暂时无法服务，请稍后重试或联系客服。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;重复提问3-次以上同类无效问题&#34;&gt;重复提问（3 次以上同类无效问题）
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;我已经无法提供更多有效信息，建议你咨询人工客服获取帮助。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;用户质疑答案错误&#34;&gt;用户质疑答案错误
+&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;如果你认为信息有误，以官方页面 / 人工客服告知为准。你可以通过反馈提交问题。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;日志与回溯必接&#34;&gt;日志与回溯（必接）
+&lt;/h2&gt;&lt;p&gt;必须记录：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;用户提问（脱敏）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;AI 回答&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;检索到的知识库片段&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;时间、设备、用户 ID（脱敏）&lt;/p&gt;
+&lt;p&gt;用于：&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;幻觉排查&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;知识库优化&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;客诉举证&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;审核与上线标准&#34;&gt;审核与上线标准
+&lt;/h2&gt;&lt;p&gt;AI 功能上线必须满足：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;有知识库，且内容准确最新&lt;/li&gt;
+&lt;li&gt;有规则拦截&lt;/li&gt;
+&lt;li&gt;有输出校验&lt;/li&gt;
+&lt;li&gt;有降级话术&lt;/li&gt;
+&lt;li&gt;有幻觉案例测试&lt;/li&gt;
+&lt;li&gt;有免责声明&lt;/li&gt;
+&lt;li&gt;有反馈入口&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;免责声明必须展示&#34;&gt;免责声明（必须展示）
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;本智能助手仅提供官方信息参考，不构成任何承诺或保证。具体以产品页面、官方规则及人工客服告知为准。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;ai-助手交互规范toc&#34;&gt;AI 助手交互规范（ToC）
+&lt;/h1&gt;&lt;h2 id=&#34;文档目的&#34;&gt;文档目的
+&lt;/h2&gt;&lt;p&gt;规范 AI 助手的&lt;strong&gt;输入、输出、边界、风控、幻觉规避、体验一致性&lt;/strong&gt;，保证用户安全、可信、稳定使用，避免误导、编造、超范围回答。&lt;/p&gt;
+&lt;h2 id=&#34;适用范围-1&#34;&gt;适用范围
+&lt;/h2&gt;&lt;p&gt;适用于产品内所有 AI 对话、智能问答、AI 辅助功能。&lt;/p&gt;
+&lt;h2 id=&#34;设计原则-1&#34;&gt;设计原则
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;安全第一&lt;/strong&gt;：不违法、不违规、不误导、不承诺。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可信优先&lt;/strong&gt;：事实准确 &amp;gt; 完整 &amp;gt; 流畅。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;边界清晰&lt;/strong&gt;：只做产品内允许的事，不自由发挥。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可降级&lt;/strong&gt;：AI 不确定 / 不可靠时，必须兜底。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;用户友好&lt;/strong&gt;：口语化、简短、不生硬、不甩锅。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;输入规则用户提问&#34;&gt;输入规则（用户提问）
+&lt;/h2&gt;&lt;h3 id=&#34;允许处理&#34;&gt;允许处理
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;产品功能使用咨询&lt;/li&gt;
+&lt;li&gt;操作指引、步骤说明&lt;/li&gt;
+&lt;li&gt;账号 / 权限 / 常见问题&lt;/li&gt;
+&lt;li&gt;合理求助与反馈&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;强制拦截不进入-ai&#34;&gt;强制拦截（不进入 AI）
+&lt;/h3&gt;&lt;p&gt;以下内容&lt;strong&gt;直接拒绝&lt;/strong&gt;，统一回复：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;抱歉，这个问题我无法回答，请换个问题或咨询人工客服。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;拦截范围：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;涉政、色情、暴力、恐怖、违法违规&lt;/li&gt;
+&lt;li&gt;医疗诊断、法律建议、投资理财指导&lt;/li&gt;
+&lt;li&gt;算命、占卜、玄学、人身攻击&lt;/li&gt;
+&lt;li&gt;非本产品相关的外部问题&lt;/li&gt;
+&lt;li&gt;诱导泄露内部数据、接口、逻辑&lt;/li&gt;
+&lt;li&gt;诱导越狱、破解、违规操作&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;输出强制规则反幻觉核心&#34;&gt;输出强制规则（反幻觉核心）
+&lt;/h2&gt;&lt;h3 id=&#34;绝对禁止输出-1&#34;&gt;绝对禁止输出
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;编造&lt;strong&gt;不存在的功能、活动、价格、福利、时间&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;编造&lt;strong&gt;数据、案例、人名、链接、政策依据&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;做出&lt;strong&gt;承诺、保证、预判、效果担保&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;超出知识库 / 产品范围&lt;strong&gt;联想、推理、扩展&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;使用 “可能”“应该”“大概”“据传闻” 等模糊表述&lt;/li&gt;
+&lt;li&gt;引导用户违规、绕过限制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;必须遵守-1&#34;&gt;必须遵守
+&lt;/h3&gt;&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;只依据官方知识库回答&lt;/strong&gt;，无匹配则拒答。&lt;/li&gt;
+&lt;li&gt;不确定 → 明确说：&lt;strong&gt;“我无法确定”&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;同类问题&lt;strong&gt;回答必须一致&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;语言&lt;strong&gt;简短、口语化、正向&lt;/strong&gt;，符合 ToC 用户习惯。&lt;/li&gt;
+&lt;li&gt;不使用专业术语、不堆砌长文本。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;知识库与-rag-强制流程toc-必开&#34;&gt;知识库与 RAG 强制流程（ToC 必开）
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;用户提问 → 意图识别 → 规则拦截&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;检索官方知识库&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;匹配达标 → 基于片段生成回答&lt;/li&gt;
+&lt;li&gt;匹配不达标 → &lt;strong&gt;直接拒答，不自由生成&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;回答末尾统一标注：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;信息以产品内实际展示为准&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;模型生成参数给技术&#34;&gt;模型生成参数（给技术）
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;模式：&lt;strong&gt;事实问答 / 保守模式&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;temperature ≤ 0.2&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;top_p ≤ 0.3&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;禁止创意生成、自由联想、扩展发挥&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;交互流程&#34;&gt;交互流程
+&lt;/h2&gt;&lt;h3 id=&#34;正常流程-1&#34;&gt;正常流程
+&lt;/h3&gt;&lt;p&gt;用户提问 → 拦截检查 → 知识库检索 → AI 生成 → 校验 → 输出&lt;/p&gt;
+&lt;h3 id=&#34;降级流程任一触发&#34;&gt;降级流程（任一触发）
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;无知识库匹配&lt;/li&gt;
+&lt;li&gt;输出校验不通过&lt;/li&gt;
+&lt;li&gt;服务异常 / 超时&lt;/li&gt;
+&lt;li&gt;连续多轮无效回答&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;降级统一回复：&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;抱歉，我暂时无法准确回答，你可以咨询人工客服。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;视觉与体验规范-1&#34;&gt;视觉与体验规范
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;AI 回答区域明确标注 &lt;strong&gt;“智能助手”&lt;/strong&gt;，与用户输入区分。&lt;/li&gt;
+&lt;li&gt;操作步骤&lt;strong&gt;分段、序号化、可复制&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;关键信息（按钮、路径、入口）&lt;strong&gt;高亮突出&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;不输出超长段落，不刷屏。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;异常场景话术固定&#34;&gt;异常场景话术（固定）
+&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;AI 服务异常&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;智能助手暂时无法使用，请稍后再试。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;重复无效提问（≥3 次）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我暂时无法提供更多帮助，建议你咨询人工客服。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;用户质疑答案错误&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;信息以产品内实际展示和官方规则为准，感谢你的反馈。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;日志与回溯必接-1&#34;&gt;日志与回溯（必接）
+&lt;/h2&gt;&lt;p&gt;必须记录（脱敏）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;用户提问&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;AI 回答&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;知识库匹配片段&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;时间、设备、用户 ID（脱敏）&lt;/p&gt;
+&lt;p&gt;用途：幻觉排查、体验优化、客诉处理。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;上线验收标准&#34;&gt;上线验收标准
+&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;有官方知识库并定期更新&lt;/li&gt;
+&lt;li&gt;有输入拦截 &amp;amp; 输出校验&lt;/li&gt;
+&lt;li&gt;有完整降级话术&lt;/li&gt;
+&lt;li&gt;完成幻觉用例测试&lt;/li&gt;
+&lt;li&gt;有用户反馈入口&lt;/li&gt;
+&lt;li&gt;加免责声明&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;免责声明页面固定展示&#34;&gt;免责声明（页面固定展示）
+&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;本智能助手仅提供产品使用参考，不构成承诺或保证。&lt;/p&gt;
+&lt;p&gt;具体以产品实际页面、官方规则及人工客服说明为准。&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
         <title>Hugo &#43; github搭建个人免费博客</title>
         <link>https://page-pan.github.io/p/hugo--github%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%85%8D%E8%B4%B9%E5%8D%9A%E5%AE%A2/</link>
         <pubDate>Sat, 14 Mar 2026 10:22:22 +0800</pubDate>
@@ -254,20 +746,12 @@ Person access tokens 创建一个 Tokens (classic)： 记住 token&lt;/p&gt;
 </description>
         </item>
         <item>
-        <title>博客ABC</title>
-        <link>https://page-pan.github.io/p/%E5%8D%9A%E5%AE%A2abc/</link>
-        <pubDate>Mon, 09 Feb 2026 11:33:11 +0800</pubDate>
-        
-        <guid>https://page-pan.github.io/p/%E5%8D%9A%E5%AE%A2abc/</guid>
-        <description></description>
-        </item>
-        <item>
-        <title>Chinese Test</title>
+        <title>正文测试</title>
         <link>https://page-pan.github.io/p/test-chinese/</link>
         <pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate>
         
         <guid>https://page-pan.github.io/p/test-chinese/</guid>
-        <description>&lt;img src="https://page-pan.github.io/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" /&gt;&lt;h2 id=&#34;正文测试&#34;&gt;正文测试
+        <description>&lt;img src="https://page-pan.github.io/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post 正文测试" /&gt;&lt;h2 id=&#34;正文测试&#34;&gt;正文测试
 &lt;/h2&gt;&lt;p&gt;而这些并不是完全重要，更加重要的问题是， 带着这些问题，我们来审视一下学生会退会。 既然如何， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 我们不得不面对一个非常尴尬的事实，那就是， 可是，即使是这样，学生会退会的出现仍然代表了一定的意义。 学生会退会，发生了会如何，不发生又会如何。 经过上述讨论， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 学生会退会，到底应该如何实现。 这样看来， 在这种困难的抉择下，本人思来想去，寝食难安。 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 就我个人来说，学生会退会对我的意义，不能不说非常重大。 莎士比亚曾经提到过，人的一生是短的，但如果卑劣地过这一生，就太长了。这似乎解答了我的疑惑。 莫扎特说过一句富有哲理的话，谁和我一样用功，谁就会和我一样成功。这启发了我， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 学生会退会，到底应该如何实现。 一般来说， 从这个角度来看， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 在这种困难的抉择下，本人思来想去，寝食难安。 了解清楚学生会退会到底是一种怎么样的存在，是解决一切问题的关键。 一般来说， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 问题的关键究竟为何？ 而这些并不是完全重要，更加重要的问题是。&lt;/p&gt;
 &lt;p&gt;奥斯特洛夫斯基曾经说过，共同的事业，共同的斗争，可以使人们产生忍受一切的力量。　带着这句话，我们还要更加慎重的审视这个问题： 一般来讲，我们都必须务必慎重的考虑考虑。 既然如此， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 带着这些问题，我们来审视一下学生会退会。 我认为， 我认为， 在这种困难的抉择下，本人思来想去，寝食难安。 问题的关键究竟为何？ 每个人都不得不面对这些问题。 在面对这种问题时， 要想清楚，学生会退会，到底是一种怎么样的存在。 我认为， 既然如此， 每个人都不得不面对这些问题。 在面对这种问题时， 那么， 我认为， 学生会退会因何而发生。&lt;/p&gt;
 &lt;h2 id=&#34;引用&#34;&gt;引用
@@ -569,14 +1053,14 @@ Person access tokens 创建一个 Tokens (classic)： 记住 token&lt;/p&gt;
 &lt;p&gt;Press &lt;kbd&gt;CTRL&lt;/kbd&gt; + &lt;kbd&gt;ALT&lt;/kbd&gt; + &lt;kbd&gt;Delete&lt;/kbd&gt; to end the session.&lt;/p&gt;
 &lt;p&gt;Most &lt;mark&gt;salamanders&lt;/mark&gt; are nocturnal, and hunt for insects, worms, and other small creatures.&lt;/p&gt;
 &lt;h2 id=&#34;hyperlinked-image&#34;&gt;Hyperlinked image
-&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://google.com&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
-    &gt;&lt;img src=&#34;https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png&#34;
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://cn.bing.com/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;img src=&#34;https://ts3.tc.mm.bing.net/th/id/ODF.Y77AUHJ37M167GfxiS3cyg?w=16&amp;amp;h=16&amp;amp;c=10&amp;amp;r=0&amp;amp;o=6&amp;amp;dpr=2.3&amp;amp;pid=genserp&amp;amp;rm=2&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;Google&#34;
+		alt=&#34;Bing&#34;
 	
 	
 &gt;&lt;/a&gt;&lt;/p&gt;
@@ -584,7 +1068,7 @@ Person access tokens 创建一个 Tokens (classic)： 记住 token&lt;/p&gt;
 &lt;hr&gt;
 &lt;ol&gt;
 &lt;li id=&#34;fn:1&#34;&gt;
-&lt;p&gt;The above quote is excerpted from Rob Pike&amp;rsquo;s &lt;a class=&#34;link&#34; href=&#34;https://www.youtube.com/watch?v=PAAkCSZUG1c&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;p&gt;The above quote is excerpted from Rob Pike&amp;rsquo;s &lt;a class=&#34;link&#34; href=&#34;https://www.bilibili.com/video/BV11W411n75x/?spm_id_from=333.337.search-card.all.click&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;talk&lt;/a&gt; during Gopherfest, November 18, 2015.&amp;#160;&lt;a href=&#34;#fnref:1&#34; class=&#34;footnote-backref&#34; role=&#34;doc-backlink&#34;&gt;&amp;#x21a9;&amp;#xfe0e;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;

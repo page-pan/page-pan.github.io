@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zh-cn" dir="ltr">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="AI 幻觉：大模型编造事实、引用不存在文献、逻辑自洽但错误、答非所问却很自信。\n一、最立竿见影：Prompt 工程 强制 “不知道就说不知道”\n请严格遵守：\n如果你不确定、没有把握、信息不足，直接说“我不确定”，不要编造。 不要生成不存在的人名、数据、文献、链接、政策文件。 只输出你确定为真的内容。 要求标注来源\n">
+<title>AI 幻觉（Hallucination）规避方法</title>
+
+<link rel='canonical' href='https://page-pan.github.io/p/ai-%E5%B9%BB%E8%A7%89hallucination%E8%A7%84%E9%81%BF%E6%96%B9%E6%B3%95/'>
+
+<link rel="stylesheet" href="/scss/style.min.86591c898bd806857815fbb8c47e8d3fed97c133b78e83d9bfc27b164dd0aa2b.css"><meta property='og:title' content="AI 幻觉（Hallucination）规避方法">
+<meta property='og:description' content="AI 幻觉：大模型编造事实、引用不存在文献、逻辑自洽但错误、答非所问却很自信。\n一、最立竿见影：Prompt 工程 强制 “不知道就说不知道”\n请严格遵守：\n如果你不确定、没有把握、信息不足，直接说“我不确定”，不要编造。 不要生成不存在的人名、数据、文献、链接、政策文件。 只输出你确定为真的内容。 要求标注来源\n">
+<meta property='og:url' content='https://page-pan.github.io/p/ai-%E5%B9%BB%E8%A7%89hallucination%E8%A7%84%E9%81%BF%E6%96%B9%E6%B3%95/'>
+<meta property='og:site_name' content='Page的网站'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2026-03-14T21:29:53&#43;08:00'/><meta property='article:modified_time' content='2026-03-14T21:29:53&#43;08:00'/>
+<meta name="twitter:title" content="AI 幻觉（Hallucination）规避方法">
+<meta name="twitter:description" content="AI 幻觉：大模型编造事实、引用不存在文献、逻辑自洽但错误、答非所问却很自信。\n一、最立竿见影：Prompt 工程 强制 “不知道就说不知道”\n请严格遵守：\n如果你不确定、没有把握、信息不足，直接说“我不确定”，不要编造。 不要生成不存在的人名、数据、文献、链接、政策文件。 只输出你确定为真的内容。 要求标注来源\n">
+    </head>
+    <body class="
+    article-page
+    ">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.scheme = 'dark';
+        } else {
+            document.documentElement.dataset.scheme = 'light';
+        }
+    })();
+</script>
+<div class="container main-container flex on-phone--column extended"><aside class="sidebar left-sidebar sticky ">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header>
+        
+            
+            <figure class="site-avatar">
+                <a href="/">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu_c29c446b9d282aa8.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+                </a>
+                
+                    <span class="emoji">🍥</span>
+                
+            </figure>
+            
+        
+        
+        <div class="site-meta">
+            <h1 class="site-name"><a href="/">Page的网站</a></h1>
+            <h2 class="site-description">技术文档</h2>
+        </div>
+    </header><ol class="menu-social">
+            
+                <li>
+                    <a 
+                        href='https://github.com/page-pan'
+                        target="_blank"
+                        title="GitHub"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+</svg>
+
+
+
+                        
+                    </a>
+                </li>
+            
+                <li>
+                    <a 
+                        href='https://page568.dpdns.org'
+                        target="_blank"
+                        title="pagesite"
+                        rel="me"
+                    >
+                        
+                        
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-world-pin"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M20.972 11.291a9 9 0 1 0 -8.322 9.686" /><path d="M3.6 9h16.8" /><path d="M3.6 15h8.9" /><path d="M11.5 3a17 17 0 0 0 0 18" /><path d="M12.5 3a16.986 16.986 0 0 1 2.578 9.018" /><path d="M21.121 20.121a3 3 0 1 0 -4.242 0c.418 .419 1.125 1.045 2.121 1.879c1.051 -.89 1.759 -1.516 2.121 -1.879" /><path d="M19 18v.01" /></svg>
+                        
+                    </a>
+                </li>
+            
+        </ol><ol class="menu" id="main-menu">
+        
+        
+        
+        <li >
+            <a href='/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E5%85%B3%E4%BA%8E/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/archives/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>归档</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/search/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+        
+        <li >
+            <a href='/%E9%93%BE%E6%8E%A5/' >
+                
+                
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M10 14a3.5 3.5 0 0 0 5 0l4 -4a3.5 3.5 0 0 0 -5 -5l-.5 .5" />
+  <path d="M14 10a3.5 3.5 0 0 0 -5 0l-4 4a3.5 3.5 0 0 0 5 5l.5 -.5" />
+</svg>
+
+
+
+                
+                <span>链接</span>
+            </a>
+        </li>
+        
+        <li class="menu-bottom-section">
+            <ol class="menu">
+                    
+                        <li id="i18n-switch">  
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <path d="M4 5h7" />
+  <path d="M9 3v2c0 4.418 -2.239 8 -5 8" />
+  <path d="M5 9c-.003 2.144 2.952 3.908 6.7 4" />
+  <path d="M12 20l4 -9l4 9" />
+  <path d="M19.1 18h-6.2" />
+</svg>
+
+
+
+                            <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                                
+                                    <option value="https://page-pan.github.io/" selected>简体中文</option>
+                                
+                                    <option value="https://page-pan.github.io/en/" >English</option>
+                                
+                            </select>
+                        </li>
+                    
+                
+
+                
+                    <li id="dark-mode-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                        <span>暗色模式</span>
+                    </li>
+                
+            </ol>
+        </li>
+    </ol>
+</aside>
+
+    <aside class="sidebar right-sidebar sticky">
+        
+            
+                
+    <section class="widget archives">
+        <div class="widget-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <line x1="5" y1="9" x2="19" y2="9" />
+  <line x1="5" y1="15" x2="19" y2="15" />
+  <line x1="11" y1="4" x2="7" y2="20" />
+  <line x1="17" y1="4" x2="13" y2="20" />
+</svg>
+
+
+
+        </div>
+        <h2 class="widget-title section-title">目录</h2>
+        
+        <div class="widget--toc">
+            <nav id="TableOfContents">
+  <ol>
+    <li><a href="#适用范围">适用范围</a></li>
+    <li><a href="#设计原则">设计原则</a></li>
+    <li><a href="#输入规范">输入规范</a>
+      <ol>
+        <li><a href="#允许输入">允许输入</a></li>
+        <li><a href="#禁止输入处理触发拦截">禁止输入处理（触发拦截）</a></li>
+      </ol>
+    </li>
+    <li><a href="#输出强制规范核心反幻觉">输出强制规范（核心反幻觉）</a>
+      <ol>
+        <li><a href="#绝对禁止输出">绝对禁止输出</a></li>
+        <li><a href="#必须遵守">必须遵守</a></li>
+      </ol>
+    </li>
+    <li><a href="#知识库与-rag-流程强制">知识库与 RAG 流程（强制）</a></li>
+    <li><a href="#模型参数约束给技术">模型参数约束（给技术）</a></li>
+    <li><a href="#交互流程规范">交互流程规范</a>
+      <ol>
+        <li><a href="#正常流程">正常流程</a></li>
+        <li><a href="#降级流程">降级流程</a></li>
+      </ol>
+    </li>
+    <li><a href="#视觉与体验规范">视觉与体验规范</a></li>
+    <li><a href="#异常处理">异常处理</a>
+      <ol>
+        <li><a href="#ai-服务异常">AI 服务异常</a></li>
+        <li><a href="#重复提问3-次以上同类无效问题">重复提问（3 次以上同类无效问题）</a></li>
+        <li><a href="#用户质疑答案错误">用户质疑答案错误</a></li>
+      </ol>
+    </li>
+    <li><a href="#日志与回溯必接">日志与回溯（必接）</a></li>
+    <li><a href="#审核与上线标准">审核与上线标准</a></li>
+    <li><a href="#免责声明必须展示">免责声明（必须展示）</a></li>
+  </ol>
+
+  <ol>
+    <li><a href="#文档目的">文档目的</a></li>
+    <li><a href="#适用范围-1">适用范围</a></li>
+    <li><a href="#设计原则-1">设计原则</a></li>
+    <li><a href="#输入规则用户提问">输入规则（用户提问）</a>
+      <ol>
+        <li><a href="#允许处理">允许处理</a></li>
+        <li><a href="#强制拦截不进入-ai">强制拦截（不进入 AI）</a></li>
+      </ol>
+    </li>
+    <li><a href="#输出强制规则反幻觉核心">输出强制规则（反幻觉核心）</a>
+      <ol>
+        <li><a href="#绝对禁止输出-1">绝对禁止输出</a></li>
+        <li><a href="#必须遵守-1">必须遵守</a></li>
+      </ol>
+    </li>
+    <li><a href="#知识库与-rag-强制流程toc-必开">知识库与 RAG 强制流程（ToC 必开）</a></li>
+    <li><a href="#模型生成参数给技术">模型生成参数（给技术）</a></li>
+    <li><a href="#交互流程">交互流程</a>
+      <ol>
+        <li><a href="#正常流程-1">正常流程</a></li>
+        <li><a href="#降级流程任一触发">降级流程（任一触发）</a></li>
+      </ol>
+    </li>
+    <li><a href="#视觉与体验规范-1">视觉与体验规范</a></li>
+    <li><a href="#异常场景话术固定">异常场景话术（固定）</a></li>
+    <li><a href="#日志与回溯必接-1">日志与回溯（必接）</a></li>
+    <li><a href="#上线验收标准">上线验收标准</a></li>
+    <li><a href="#免责声明页面固定展示">免责声明（页面固定展示）</a></li>
+  </ol>
+</nav>
+        </div>
+    </section>
+
+            
+        
+    </aside>
+
+
+            <main class="main full-width">
+    <article class="main-article">
+    <header class="article-header">
+
+    <div class="article-details">
+    
+
+    <div class="article-title-wrapper">
+        <h2 class="article-title">
+            <a href="/p/ai-%E5%B9%BB%E8%A7%89hallucination%E8%A7%84%E9%81%BF%E6%96%B9%E6%B3%95/">AI 幻觉（Hallucination）规避方法</a>
+        </h2>
+    
+        
+    </div>
+
+    
+    
+    
+    
+    <footer class="article-time">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
+</svg>
+                <time class="article-time--published" datetime='2026-03-14T21:29:53&#43;08:00'>2026-03-14</time>
+            </div>
+        
+
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+                <time class="article-time--reading">
+                    阅读时长: 8 分钟
+                </time>
+            </div>
+        
+    </footer>
+    
+
+    
+</div>
+
+</header>
+
+    <section class="article-content">
+    
+    
+    <p>AI 幻觉：大模型<strong>编造事实、引用不存在文献、逻辑自洽但错误、答非所问却很自信</strong>。</p>
+<h1 id="一最立竿见影prompt-工程">一、最立竿见影：Prompt 工程
+</h1><ol>
+<li>
+<p>强制 “不知道就说不知道”</p>
+<p>请严格遵守：</p>
+<ol>
+<li>如果你不确定、没有把握、信息不足，直接说“我不确定”，不要编造。</li>
+<li>不要生成不存在的人名、数据、文献、链接、政策文件。</li>
+<li>只输出你<strong>确定为真</strong>的内容。</li>
+</ol>
+</li>
+<li>
+<p>要求标注来源</p>
+<p>回答时必须：</p>
+<ul>
+<li>引用可验证来源</li>
+<li>不确定来源时明确标注“无可靠来源”</li>
+<li>禁止虚构来源、虚构引用</li>
+</ul>
+</li>
+<li>
+<p>分步思考 + 自我校验（COT + Self-Correction）</p>
+<p>请按步骤：</p>
+<ol>
+<li>先提取问题关键点</li>
+<li>检索/回忆可靠知识</li>
+<li>组织答案</li>
+<li>自我检查：是否有编造？是否有矛盾？是否有不确定内容？</li>
+<li>只输出最终正确答案</li>
+</ol>
+</li>
+<li>
+<p>限制输出范围</p>
+<ul>
+<li>只回答某领域</li>
+<li>只基于提供的文档回答</li>
+<li>禁止扩展、禁止联想</li>
+</ul>
+</li>
+</ol>
+<h1 id="二最强治本方案rag检索增强生成">二、最强治本方案：RAG（检索增强生成）
+</h1><p><strong>RAG 是目前工业界抑制幻觉最有效手段。</strong></p>
+<p>核心逻辑</p>
+<p>不依赖模型 “记忆”，而是：</p>
+<p><strong>检索真实文档 → 让模型只基于文档回答 → 禁止模型自由发挥</strong></p>
+<p>落地要点</p>
+<ol>
+<li>
+<p>高质量知识库</p>
+<ul>
+<li>权威：官方文档、论文、标准、手册、财报、法规</li>
+<li>去噪：清洗错误、重复、过时信息</li>
+</ul>
+</li>
+<li>
+<p>精准检索</p>
+<ul>
+<li>向量库 + 关键词混合检索</li>
+<li>召回 Top3~5 最相关片段</li>
+</ul>
+</li>
+<li>
+<p>强约束 Prompt</p>
+<p>请<strong>只根据下面提供的资料</strong>回答，
+资料里没有的内容，不要回答，不要编造。</p>
+</li>
+<li>
+<p>引用溯源</p>
+<p>回答末尾自动附上：参考资料：xxx 第x段</p>
+</li>
+</ol>
+<h1 id="三模型层面从源头减少幻觉">三、模型层面：从源头减少幻觉
+</h1><ol>
+<li>选择更稳定的模型</li>
+</ol>
+<ul>
+<li>闭源：GPT-4、Claude 3、Gemini Advanced 幻觉显著更低</li>
+<li>开源：Llama 3、Qwen、GLM 系列新版本 &gt; 小模型 / 旧模型</li>
+</ul>
+<ol start="2">
+<li>微调策略（Fine-tuning）</li>
+</ol>
+<ul>
+<li><strong>SFT（有监督微调）</strong>：用<strong>高质量、事实准确</strong>的问答对</li>
+<li><strong>偏好对齐（RLHF/DPO）</strong>：强化 “诚实”、“拒绝编造”</li>
+<li>禁止用低质量爬虫数据、混杂错误数据微调</li>
+</ul>
+<ol start="3">
+<li>温度（Temperature）调低</li>
+</ol>
+<ul>
+<li>生成更保守、更确定</li>
+<li>建议：<strong>0~0.3</strong>（ factual 任务）</li>
+<li>创意任务可适当调高</li>
+</ul>
+<h1 id="四架构层面外挂工具杜绝瞎编">四、架构层面：外挂工具，杜绝瞎编
+</h1><p>让模型<strong>不能编，只能查</strong>。</p>
+<ol>
+<li>联网搜索插件
+<ul>
+<li>实时拉取最新、真实信息</li>
+</ul>
+</li>
+<li>数据库 / API 查询
+<ul>
+<li>数字、订单、库存、价格：必须查库，不许编</li>
+</ul>
+</li>
+<li>计算器 / 代码解释器
+<ul>
+<li>数学、统计、逻辑计算：交给工具，不依赖模型推理</li>
+</ul>
+</li>
+</ol>
+<h1 id="五后校验自动检测--人工审核必做">五、后校验：自动检测 + 人工审核（必做）
+</h1><ol>
+<li>自动事实校验（Fact-Checking）</li>
+</ol>
+<ul>
+<li>用另一个更强模型做 “审稿人”</li>
+<li>检查：
+<ul>
+<li>是否存在不存在实体</li>
+<li>数据是否矛盾</li>
+<li>逻辑是否自洽</li>
+<li>能否被原文支持</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>关键词拦截</li>
+</ol>
+<p>拦截幻觉高频句式：</p>
+<ul>
+<li>“据相关资料显示…”</li>
+<li>“专家普遍认为…”</li>
+<li>“有研究表明…”（无具体来源）</li>
+</ul>
+<ol start="3">
+<li>人工审核流程</li>
+</ol>
+<ul>
+<li>高风险场景（医疗、法律、金融、新闻）必须人工终审</li>
+<li>建立错误样本库，持续迭代</li>
+</ul>
+<h1 id="六按场景给你直接可用方案最实用">六、按场景给你直接可用方案（最实用）
+</h1><ol>
+<li>客服 / 问答（最容易幻觉）</li>
+</ol>
+<ul>
+<li><strong>必须用 RAG</strong></li>
+<li>禁止模型自由回答</li>
+<li>超出知识库统一回复：该问题我无法准确回答，将转接人工客服。</li>
+</ul>
+<ol start="2">
+<li>写作 / 总结</li>
+</ol>
+<ul>
+<li>要求每段事实<strong>必须来自原文</strong></li>
+<li>禁止添加原文没有的信息、评价、数据</li>
+</ul>
+<ol start="3">
+<li>代码 / 技术</li>
+</ol>
+<ul>
+<li>代码必须可运行，给出验证方式</li>
+<li>技术参数必须来自官方文档（RAG）</li>
+</ul>
+<ol start="4">
+<li>医疗 / 法律 / 金融（强风险）</li>
+</ol>
+<ul>
+<li>模型只做<strong>信息整理</strong>，不做结论</li>
+<li>必须加免责声明</li>
+<li>关键结论必须人工复核</li>
+</ul>
+<h1 id="七反幻觉终极-prompt">七、反幻觉终极 Prompt
+</h1><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">你现在执行严格事实约束：
+</span></span><span class="line"><span class="cl">1. 不确定、无把握、无来源的内容，直接说“我无法确定”，绝不编造。
+</span></span><span class="line"><span class="cl">2. 不生成不存在的人名、地名、数据、论文、法规、链接、案例。
+</span></span><span class="line"><span class="cl">3. 所有事实性内容必须可验证、有权威依据。
+</span></span><span class="line"><span class="cl">4. 若问题需要最新信息或真实数据，你必须声明需要检索/查询，不能凭记忆回答。
+</span></span><span class="line"><span class="cl">5. 回答完成后，自我检查一遍是否存在幻觉，如有则删除错误内容。
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>总结（一句话记住）</p>
+<ul>
+<li><strong>低风险场景：Prompt + 低温</strong></li>
+<li><strong>中风险场景：RAG + 来源引用</strong></li>
+<li><strong>高风险场景：RAG + 工具调用 + 自动校验 + 人工审核</strong></li>
+</ul>
+<p>如果你告诉我你是<strong>做项目 / 写论文 / 做产品 / 做客服</strong>，我可以直接给你<strong>对应场景的最简可落地方案</strong>和一套专属反幻觉提示词。</p>
+<h1 id="ai-助手交互规范tob">AI 助手交互规范(ToB)
+</h1><h2 id="适用范围">适用范围
+</h2><p>本文档适用于产品内所有 AI 对话、AI 问答、AI 生成类功能的交互逻辑、输出约束、异常处理、用户体验规范。</p>
+<h2 id="设计原则">设计原则
+</h2><ol>
+<li><strong>可信优先</strong>：事实准确 &gt; 回答完整 &gt; 体验流畅。</li>
+<li><strong>边界清晰</strong>：不超范围、不瞎编、不承诺、不联想。</li>
+<li><strong>可解释</strong>：所有关键信息必须可溯源、可校验。</li>
+<li><strong>可降级</strong>：AI 不可靠时，必须自动切换为人工 / 标准话术。</li>
+<li><strong>安全合规</strong>：禁止输出违法、违规、误导、承诺性内容。</li>
+</ol>
+<h2 id="输入规范">输入规范
+</h2><h3 id="允许输入">允许输入
+</h3><ul>
+<li>产品功能咨询、使用问题、操作指引</li>
+<li>规则说明、流程解释、状态查询</li>
+<li>合理的意见反馈、求助</li>
+</ul>
+<h3 id="禁止输入处理触发拦截">禁止输入处理（触发拦截）
+</h3><p>满足以下任一条件，<strong>直接拦截，不进入 AI 生成</strong>：</p>
+<ul>
+<li>涉政、色情、暴力、违法违规</li>
+<li>医疗诊断、法律意见、投资理财建议</li>
+<li>人身攻击、辱骂、恶意诱导</li>
+<li>非本产品相关的无关问题</li>
+<li>诱导泄露隐私、后台数据、内部逻辑</li>
+</ul>
+<p><strong>拦截统一回复：</strong></p>
+<blockquote>
+<p>抱歉，该问题我无法回答，请更换问题或咨询人工客服。</p>
+</blockquote>
+<h2 id="输出强制规范核心反幻觉">输出强制规范（核心反幻觉）
+</h2><h3 id="绝对禁止输出">绝对禁止输出
+</h3><ul>
+<li>编造不存在的<strong>功能、价格、活动、规则、时间节点</strong></li>
+<li>编造<strong>人名、数据、案例、文献、链接、政策依据</strong></li>
+<li>做出<strong>承诺、保证、预判、结果担保</strong></li>
+<li>超出知识库范围的<strong>联想、推理、扩展</strong></li>
+<li>内部逻辑、接口、模型、数据结构等涉密信息</li>
+</ul>
+<h3 id="必须遵守">必须遵守
+</h3><ol>
+<li><strong>只依据官方知识库回答</strong>，无知识库内容则拒答。</li>
+<li>不确定 → 明确说 <strong>“我无法确定”</strong>，不模糊、不猜测。</li>
+<li>同类问题<strong>输出保持一致性</strong>，不可前后矛盾。</li>
+<li>回答<strong>简洁、客观、中性</strong>，不情绪化、不夸张。</li>
+</ol>
+<h2 id="知识库与-rag-流程强制">知识库与 RAG 流程（强制）
+</h2><ol>
+<li>用户提问 → 先检索知识库。</li>
+<li>匹配度≥阈值 → 基于片段生成回答。</li>
+<li>匹配度＜阈值 → 直接拒答，<strong>不自由生成</strong>。</li>
+<li>回答末尾必须显示：</li>
+</ol>
+<blockquote>
+<p>信息来源于官方知识库</p>
+</blockquote>
+<h2 id="模型参数约束给技术">模型参数约束（给技术）
+</h2><ul>
+<li>生成模式：<strong>事实优先</strong></li>
+<li>温度：<strong>≤ 0.2</strong></li>
+<li>最大长度：根据场景限制，<strong>不允许超长发挥</strong></li>
+<li>禁止开启：联想模式、扩展模式、创意模式</li>
+</ul>
+<h2 id="交互流程规范">交互流程规范
+</h2><h3 id="正常流程">正常流程
+</h3><p>用户提问 → 意图识别 → 规则拦截 → 知识库检索 → AI 生成 → 校验 → 输出</p>
+<h3 id="降级流程">降级流程
+</h3><p>任一环节不通过，直接降级：</p>
+<ul>
+<li>无匹配知识 → 拒答</li>
+<li>校验不通过 → 拒答</li>
+<li>服务异常 → 提示稍后再试</li>
+</ul>
+<p><strong>降级统一回复：</strong></p>
+<blockquote>
+<p>抱歉，我暂时无法准确回答你的问题，你可以尝试咨询人工客服。</p>
+</blockquote>
+<h2 id="视觉与体验规范">视觉与体验规范
+</h2><ol>
+<li>AI 回答区域必须明显区分用户输入，标明 <strong>“智能助手”</strong>。</li>
+<li>关键步骤、操作指引支持<strong>高亮 / 可复制</strong>。</li>
+<li>长回答分段展示，不堆砌大段文字。</li>
+<li>禁止使用：“可能”“应该”“大概”“据了解” 等模糊表述。</li>
+</ol>
+<h2 id="异常处理">异常处理
+</h2><h3 id="ai-服务异常">AI 服务异常
+</h3><blockquote>
+<p>智能助手暂时无法服务，请稍后重试或联系客服。</p>
+</blockquote>
+<h3 id="重复提问3-次以上同类无效问题">重复提问（3 次以上同类无效问题）
+</h3><blockquote>
+<p>我已经无法提供更多有效信息，建议你咨询人工客服获取帮助。</p>
+</blockquote>
+<h3 id="用户质疑答案错误">用户质疑答案错误
+</h3><blockquote>
+<p>如果你认为信息有误，以官方页面 / 人工客服告知为准。你可以通过反馈提交问题。</p>
+</blockquote>
+<h2 id="日志与回溯必接">日志与回溯（必接）
+</h2><p>必须记录：</p>
+<ul>
+<li>
+<p>用户提问（脱敏）</p>
+</li>
+<li>
+<p>AI 回答</p>
+</li>
+<li>
+<p>检索到的知识库片段</p>
+</li>
+<li>
+<p>时间、设备、用户 ID（脱敏）</p>
+<p>用于：</p>
+</li>
+<li>
+<p>幻觉排查</p>
+</li>
+<li>
+<p>知识库优化</p>
+</li>
+<li>
+<p>客诉举证</p>
+</li>
+</ul>
+<h2 id="审核与上线标准">审核与上线标准
+</h2><p>AI 功能上线必须满足：</p>
+<ul>
+<li>有知识库，且内容准确最新</li>
+<li>有规则拦截</li>
+<li>有输出校验</li>
+<li>有降级话术</li>
+<li>有幻觉案例测试</li>
+<li>有免责声明</li>
+<li>有反馈入口</li>
+</ul>
+<h2 id="免责声明必须展示">免责声明（必须展示）
+</h2><blockquote>
+<p>本智能助手仅提供官方信息参考，不构成任何承诺或保证。具体以产品页面、官方规则及人工客服告知为准。</p>
+</blockquote>
+<h1 id="ai-助手交互规范toc">AI 助手交互规范（ToC）
+</h1><h2 id="文档目的">文档目的
+</h2><p>规范 AI 助手的<strong>输入、输出、边界、风控、幻觉规避、体验一致性</strong>，保证用户安全、可信、稳定使用，避免误导、编造、超范围回答。</p>
+<h2 id="适用范围-1">适用范围
+</h2><p>适用于产品内所有 AI 对话、智能问答、AI 辅助功能。</p>
+<h2 id="设计原则-1">设计原则
+</h2><ol>
+<li><strong>安全第一</strong>：不违法、不违规、不误导、不承诺。</li>
+<li><strong>可信优先</strong>：事实准确 &gt; 完整 &gt; 流畅。</li>
+<li><strong>边界清晰</strong>：只做产品内允许的事，不自由发挥。</li>
+<li><strong>可降级</strong>：AI 不确定 / 不可靠时，必须兜底。</li>
+<li><strong>用户友好</strong>：口语化、简短、不生硬、不甩锅。</li>
+</ol>
+<h2 id="输入规则用户提问">输入规则（用户提问）
+</h2><h3 id="允许处理">允许处理
+</h3><ul>
+<li>产品功能使用咨询</li>
+<li>操作指引、步骤说明</li>
+<li>账号 / 权限 / 常见问题</li>
+<li>合理求助与反馈</li>
+</ul>
+<h3 id="强制拦截不进入-ai">强制拦截（不进入 AI）
+</h3><p>以下内容<strong>直接拒绝</strong>，统一回复：</p>
+<blockquote>
+<p>抱歉，这个问题我无法回答，请换个问题或咨询人工客服。</p>
+</blockquote>
+<p>拦截范围：</p>
+<ul>
+<li>涉政、色情、暴力、恐怖、违法违规</li>
+<li>医疗诊断、法律建议、投资理财指导</li>
+<li>算命、占卜、玄学、人身攻击</li>
+<li>非本产品相关的外部问题</li>
+<li>诱导泄露内部数据、接口、逻辑</li>
+<li>诱导越狱、破解、违规操作</li>
+</ul>
+<h2 id="输出强制规则反幻觉核心">输出强制规则（反幻觉核心）
+</h2><h3 id="绝对禁止输出-1">绝对禁止输出
+</h3><ul>
+<li>编造<strong>不存在的功能、活动、价格、福利、时间</strong></li>
+<li>编造<strong>数据、案例、人名、链接、政策依据</strong></li>
+<li>做出<strong>承诺、保证、预判、效果担保</strong></li>
+<li>超出知识库 / 产品范围<strong>联想、推理、扩展</strong></li>
+<li>使用 “可能”“应该”“大概”“据传闻” 等模糊表述</li>
+<li>引导用户违规、绕过限制</li>
+</ul>
+<h3 id="必须遵守-1">必须遵守
+</h3><ol>
+<li><strong>只依据官方知识库回答</strong>，无匹配则拒答。</li>
+<li>不确定 → 明确说：<strong>“我无法确定”</strong>。</li>
+<li>同类问题<strong>回答必须一致</strong>。</li>
+<li>语言<strong>简短、口语化、正向</strong>，符合 ToC 用户习惯。</li>
+<li>不使用专业术语、不堆砌长文本。</li>
+</ol>
+<h2 id="知识库与-rag-强制流程toc-必开">知识库与 RAG 强制流程（ToC 必开）
+</h2><ol>
+<li>用户提问 → 意图识别 → 规则拦截</li>
+<li><strong>检索官方知识库</strong></li>
+<li>匹配达标 → 基于片段生成回答</li>
+<li>匹配不达标 → <strong>直接拒答，不自由生成</strong></li>
+<li>回答末尾统一标注：</li>
+</ol>
+<blockquote>
+<p>信息以产品内实际展示为准</p>
+</blockquote>
+<h2 id="模型生成参数给技术">模型生成参数（给技术）
+</h2><ul>
+<li>模式：<strong>事实问答 / 保守模式</strong></li>
+<li><strong>temperature ≤ 0.2</strong></li>
+<li><strong>top_p ≤ 0.3</strong></li>
+<li>禁止创意生成、自由联想、扩展发挥</li>
+</ul>
+<h2 id="交互流程">交互流程
+</h2><h3 id="正常流程-1">正常流程
+</h3><p>用户提问 → 拦截检查 → 知识库检索 → AI 生成 → 校验 → 输出</p>
+<h3 id="降级流程任一触发">降级流程（任一触发）
+</h3><ul>
+<li>无知识库匹配</li>
+<li>输出校验不通过</li>
+<li>服务异常 / 超时</li>
+<li>连续多轮无效回答</li>
+</ul>
+<p><strong>降级统一回复：</strong></p>
+<blockquote>
+<p>抱歉，我暂时无法准确回答，你可以咨询人工客服。</p>
+</blockquote>
+<h2 id="视觉与体验规范-1">视觉与体验规范
+</h2><ol>
+<li>AI 回答区域明确标注 <strong>“智能助手”</strong>，与用户输入区分。</li>
+<li>操作步骤<strong>分段、序号化、可复制</strong>。</li>
+<li>关键信息（按钮、路径、入口）<strong>高亮突出</strong>。</li>
+<li>不输出超长段落，不刷屏。</li>
+</ol>
+<h2 id="异常场景话术固定">异常场景话术（固定）
+</h2><ol>
+<li>AI 服务异常</li>
+</ol>
+<blockquote>
+<p>智能助手暂时无法使用，请稍后再试。</p>
+</blockquote>
+<ol>
+<li>重复无效提问（≥3 次）</li>
+</ol>
+<blockquote>
+<p>我暂时无法提供更多帮助，建议你咨询人工客服。</p>
+</blockquote>
+<ol>
+<li>用户质疑答案错误</li>
+</ol>
+<blockquote>
+<p>信息以产品内实际展示和官方规则为准，感谢你的反馈。</p>
+</blockquote>
+<h2 id="日志与回溯必接-1">日志与回溯（必接）
+</h2><p>必须记录（脱敏）：</p>
+<ul>
+<li>
+<p>用户提问</p>
+</li>
+<li>
+<p>AI 回答</p>
+</li>
+<li>
+<p>知识库匹配片段</p>
+</li>
+<li>
+<p>时间、设备、用户 ID（脱敏）</p>
+<p>用途：幻觉排查、体验优化、客诉处理。</p>
+</li>
+</ul>
+<h2 id="上线验收标准">上线验收标准
+</h2><ul>
+<li>有官方知识库并定期更新</li>
+<li>有输入拦截 &amp; 输出校验</li>
+<li>有完整降级话术</li>
+<li>完成幻觉用例测试</li>
+<li>有用户反馈入口</li>
+<li>加免责声明</li>
+</ul>
+<h2 id="免责声明页面固定展示">免责声明（页面固定展示）
+</h2><blockquote>
+<p>本智能助手仅提供产品使用参考，不构成承诺或保证。</p>
+<p>具体以产品实际页面、官方规则及人工客服说明为准。</p>
+</blockquote>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    </footer>
+
+
+    
+        <link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI&#43;WdtXRGWt2kTvGFasHpSy3SV"crossorigin="anonymous"
+            ><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG&#43;vnGctmUb0ZY0l8"crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"integrity="sha384-&#43;VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4&#43;/RRE05"crossorigin="anonymous"
+                defer
+                >
+            </script><script>
+    window.addEventListener("DOMContentLoaded", () => {
+        const elementsToRender = [".main-article", ".widget--toc"];
+
+        elementsToRender.forEach(selector => {
+            const element = document.querySelector(selector);
+            if (element) {
+                renderMathInElement(element, {
+                    delimiters: [
+                        { left: "$$", right: "$$", display: true },
+                        { left: "$", right: "$", display: false },
+                        { left: "\\(", right: "\\)", display: false },
+                        { left: "\\[", right: "\\]", display: true }
+                    ],
+                    ignoredClasses: ["gist"]
+                });
+            }
+        });
+    });
+</script>
+    
+</article>
+
+    
+
+    
+
+     
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2020 - 
+        
+        2026 Page Pan
+    </section>
+</footer>
+
+    
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css"crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css"crossorigin="anonymous"
+            >
+    
+
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.6/dist/vibrant.min.js"integrity="sha256-awcR2jno4kI5X0zL8ex0vi2z&#43;KMkF24hUW8WePSA9HM="crossorigin="anonymous"
+                
+                >
+            </script><script type="text/javascript" src="/ts/main.c922af694cc257bf1ecc41c0dd7b0430f9114ec280ccf67cd2c6ad55f5316c4e.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
